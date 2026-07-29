@@ -1,0 +1,23 @@
+# Training configuration — QLoRA fine-tuning of Qwen2.5-3B-Instruct
+# for resume parsing (Part 3, Option B design; also directly runnable if you get GPU access)
+
+model_name: "Qwen/Qwen2.5-3B-Instruct"
+dataset_path: "../dataset/resume_parsing_dataset.jsonl"
+output_dir: "./qwen2.5-3b-resume-lora"
+
+# LoRA hyperparameters
+lora_r: 16              # rank — 16 is a solid default for a narrow, single-task adaptation;
+                         # higher (32/64) adds capacity but risks overfitting on only 50-2000 examples
+lora_alpha: 32           # alpha = 2x r is the standard starting ratio
+lora_dropout: 0.05
+
+# Training hyperparameters
+epochs: 3                # small dataset -> more epochs needed to converge, watch eval loss for overfitting
+batch_size: 2             # constrained by 8-10GB VRAM budget at 3B params in 4-bit
+grad_accum_steps: 8       # effective batch size = batch_size * grad_accum_steps = 16
+learning_rate: 2e-4       # standard LoRA LR (higher than full fine-tuning's ~2e-5, since only
+                          # adapter weights are updated)
+max_seq_length: 2048      # resumes + JSON output comfortably fit; leaves headroom for longer CVs
+val_split: 0.2            # 20% held out — meaningful validation signal even on a 50-example set
+
+report_to: "none"         # set to "wandb" once W&B API key is configured, for real experiment tracking

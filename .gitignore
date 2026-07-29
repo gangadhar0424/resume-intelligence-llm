@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Model artifacts (large, don't belong in git)
+training/qwen2.5-3b-resume-lora/
+*.safetensors
+*.bin
+*.gguf
+
+# Env / secrets
+.env
+wandb/
+
+# OS
+.DS_Store
