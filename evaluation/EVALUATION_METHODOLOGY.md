@@ -4,9 +4,10 @@
 ```
 python evaluate.py --predictions predictions.jsonl --ground_truth ../dataset/resume_parsing_dataset.jsonl
 ```
-It was self-tested against a "perfect predictions = ground truth" file (`demo_predictions_selftest.jsonl`)
-to confirm the scoring logic itself is correct (100% on every metric except a 10% hallucination
-*flag* rate — explained below, this is an expected, informative false-positive, not a bug).
+It was self-tested against a "perfect predictions = ground truth" file (predictions copied
+from the ground-truth file itself, not committed to the repo) to confirm the scoring logic
+itself is correct (100% on every metric except a 10% hallucination *flag* rate — explained
+below, this is an expected, informative false-positive, not a bug).
 
 ## 1. Metrics
 
@@ -87,9 +88,8 @@ Two levels, both automated in `evaluate.py`:
 - `evaluate.py` is fully automated: JSON validity, schema validity, field-level F1, and
   heuristic hallucination detection all run without human input, and the script exits non-zero
   on quality-gate failure so it's CI-ready.
-- Self-tested end-to-end against ground truth (see `demo_predictions_selftest.jsonl` /
-  output above) to confirm the scoring logic is itself correct before trusting it on real
-  model output.
+- Self-tested end-to-end against ground truth (see output above) to confirm the scoring logic
+  is itself correct before trusting it on real model output.
 - Not automated in this prototype (flagged as next steps above): NLI-based hallucination
   detection, full JSON-Schema nested validation, and human preference eval — all reasonable
   v2 additions once there's a real model checkpoint and real production traffic to learn from.

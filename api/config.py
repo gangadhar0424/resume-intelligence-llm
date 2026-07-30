@@ -9,9 +9,9 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Settings:
-    # Model backend: defaults to local Ollama, matching the qwen2.5:3b already pulled locally.
+    # Model backend: defaults to local Ollama, matching the qwen2.5:0.5b already pulled locally.
     ollama_host: str = os.getenv("OLLAMA_HOST", "http://localhost:11434")
-    model_name: str = os.getenv("MODEL_NAME", "qwen2.5:3b")
+    model_name: str = os.getenv("MODEL_NAME", "qwen2.5:0.5b")
 
     # If a fine-tuned LoRA adapter has been merged and pushed as its own Ollama model
     # (e.g. via a Modelfile), point MODEL_NAME at that instead, e.g. "resume-qwen2.5-3b".

@@ -20,8 +20,7 @@ resume-intelligence-llm/
 │   └── PIPELINE_DESIGN.md          # Option B: full pipeline design, cost, risk analysis
 ├── evaluation/
 │   ├── evaluate.py                 # Part 4 — automated evaluation harness
-│   ├── EVALUATION_METHODOLOGY.md   # metrics, hallucination detection, regression testing
-│   └── demo_predictions_selftest.jsonl  # self-test artifact proving the harness works
+│   └── EVALUATION_METHODOLOGY.md   # metrics, hallucination detection, regression testing
 ├── api/
 │   ├── main.py                     # Part 5 — FastAPI inference service
 │   ├── config.py                   # centralized configuration
@@ -32,16 +31,17 @@ resume-intelligence-llm/
 
 ## Quickstart
 
-### 1. Run the API (uses your local Ollama `qwen2.5:3b`)
+### 1. Run the API (uses your local Ollama `qwen2.5:0.5b`)
 ```bash
 # Terminal 1
 ollama serve
-ollama pull qwen2.5:3b   # skip if already pulled
+ollama pull qwen2.5:0.5b   # skip if already pulled
 
 # Terminal 2
 cd api
 pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+python -m uvicorn main:app --reload --port 8000   # use `python -m` if the bare `uvicorn`
+                                                   # command isn't on your PATH
 ```
 Test it:
 ```bash
@@ -60,9 +60,10 @@ python3 generate_dataset.py
 ### 3. Run the evaluation harness
 ```bash
 cd evaluation
-python3 evaluate.py --predictions demo_predictions_selftest.jsonl \
+python3 evaluate.py --predictions <your_model_predictions.jsonl> \
                      --ground_truth ../dataset/resume_parsing_dataset.jsonl
 ```
+See `EVALUATION_METHODOLOGY.md` for the metrics and the self-check sanity procedure.
 
 ### 4. Fine-tune (requires a CUDA GPU — e.g. Google Colab)
 ```bash
@@ -96,3 +97,7 @@ is real and ready to execute).
   hallucination detection, with a CI-ready pass/fail quality gate.
 - **Serving**: FastAPI wrapping Ollama, with input validation, timeouts, and clean error
   responses for every model-backend failure mode.
+
+## License
+Apache License 2.0 — see `LICENSE`. Consistent with the base model (Qwen2.5-3B-Instruct,
+also Apache 2.0); see `research/model_selection.md` for the licensing rationale.

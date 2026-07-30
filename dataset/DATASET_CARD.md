@@ -3,7 +3,8 @@
 ## Contents
 - `generate_dataset.py` — source of truth; generates `resume_parsing_dataset.jsonl`
 - `resume_parsing_dataset.jsonl` — 50 instruction-tuning examples, one JSON object per line
-- `category_breakdown.json` — how the 50 examples are distributed across edge-case categories
+- `category_breakdown.json` (generated, not committed) — how the 50 examples are distributed
+  across edge-case categories; re-created each time `generate_dataset.py` runs
 
 ## Schema
 
